@@ -19,7 +19,15 @@ def main():
     #Execution begins here.
 
     token = get_token()
-    print(token)
+    #print(token)
+
+    api_path = "https://sandboxdnac.cisco.com/dna"
+    X-Auth-Token = {"token"}
+    headers = {"Content-Type": "application/json"}
+
+    auth_resp = requests.get(api_path + '/intent/api/v1/network-device', X-Auth-Token=X-Auth-Token, headers=headers)
+
+    auth_resp.raise_for_status()
 
 if __name__ == "__main__":
     main()

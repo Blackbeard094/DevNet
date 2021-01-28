@@ -1,33 +1,36 @@
 import requests
+#import json
 
 def get_token():
-    #Get an access token from the Cisco DNAC. Return the token string if successful; Faulse otherwise.
     
     api_path = "https://sandboxdnac.cisco.com/dna"
     auth = ("devnetuser", "Cisco123!")
     headers = {"Content-Type": "application/json"}
 
-    #Issue HTTP POST request to the proper URL to request a token
     auth_resp = requests.post(api_path + '/system/api/v1/auth/token', auth=auth, headers=headers)
 
-    #If successful, Print token. Else, raise HTTPError with details
     auth_resp.raise_for_status()
     token = auth_resp.json() ["Token"]
     print(token)
+    #print("Token: {}".format(token))
+
+    return token
 
 def main():
-    #Execution begins here.
 
     token = get_token()
-    #print(token)
 
     api_path = "https://sandboxdnac.cisco.com/dna"
-    X-Auth-Token = {"token"}
-    headers = {"Content-Type": "application/json"}
+    headers = {"Content-Type": "application/json", "X-Auth-Token": token}
 
-    auth_resp = requests.get(api_path + '/intent/api/v1/network-device', X-Auth-Token=X-Auth-Token, headers=headers)
+    get_device = requests.get(api_path + '/intent/api/v1/network-device', headers=headers)
+    #print(get_device.request.method)
+    #print(get_device.request.headers)
+    #print(get_device.request.body)
 
-    auth_resp.raise_for_status()
+    import json; 
+    print(json.dumps(get_device.json(), indent=2))
+    #print(get_device.text.encode('utf8'))
 
 if __name__ == "__main__":
-    main()
+    main() 
